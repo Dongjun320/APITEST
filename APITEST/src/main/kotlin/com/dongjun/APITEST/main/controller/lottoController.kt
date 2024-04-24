@@ -1,25 +1,31 @@
 package com.dongjun.APITEST.main.controller
 
-import com.dongjun.APITEST.main.api.model.dto.createDTO
-import com.dongjun.APITEST.main.api.model.dto.createDtoRequest
+import com.dongjun.APITEST.main.api.model.dto.LottoDTO
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 @RestController
-class lottoController {
-    private val tests = mutableListOf<createDTO>()
+class LottoController {
+    private val tickets = mutableListOf<LottoDTO>()
 
-    @PostMapping("/test")
-    fun postTestDto(
-        @RequestBody testDtoRequest: createDtoRequest
-    ): ResponseEntity<createDTO> {
-        val test = createDTO(
-            fullname = testDtoRequest.fullname,
-            email = testDtoRequest.email,
-            password = testDtoRequest.password
-        )
-        tests.add(test)
-        return ResponseEntity.ok().body(test)
+    @PostMapping("/ticket")
+    fun buyTicket(): ResponseEntity<LottoDTO> {
+        val randomNumbers = LottoDTO.generateRandomNumbers()
+        val ticket = LottoDTO(numbers = randomNumbers)
+        tickets.add(ticket)
+        return ResponseEntity.ok().body(ticket)
     }
+
+    @GetMapping("/winning-numbers")
+    fun generateWinningNumbers(): ResponseEntity<LottoDTO> {
+        val randomNumbers = LottoDTO.generateRandomNumbers()
+        val winningNumbers = LottoDTO(numbers = randomNumbers)
+        return ResponseEntity.ok().body(winningNumbers)
+    }
+
+    @GetMapping("/LottoCheck")
+    fun checkTicket(): ResponseEntity<List<LottoDTO>> {
+        return ResponseEntity.ok().body(tickets)
+    }
+
 }
