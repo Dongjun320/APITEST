@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 class LottoController {
     private val tickets = mutableListOf<LottoDTO>()
 
-    @PostMapping("/ticket")
+    @PostMapping("/Lotto")
     fun buyTicket(): ResponseEntity<LottoDTO> {
         val randomNumbers = LottoDTO.generateRandomNumbers()
         val ticket = LottoDTO(numbers = randomNumbers)
@@ -16,7 +16,7 @@ class LottoController {
         return ResponseEntity.ok().body(ticket)
     }
 
-    @GetMapping("/winning-numbers")
+    @GetMapping("/Lotto")
     fun generateWinningNumbers(): ResponseEntity<LottoDTO> {
         val randomNumbers = LottoDTO.generateRandomNumbers()
         val winningNumbers = LottoDTO(numbers = randomNumbers)
@@ -27,5 +27,4 @@ class LottoController {
     fun checkTicket(): ResponseEntity<List<LottoDTO>> {
         return ResponseEntity.ok().body(tickets)
     }
-
 }
